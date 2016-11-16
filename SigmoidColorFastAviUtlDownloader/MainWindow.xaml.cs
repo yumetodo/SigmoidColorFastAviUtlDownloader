@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,19 +38,22 @@ namespace SigmoidColorFastAviUtlDownloader
 		{
 			get { return GetValue(AviutlPathProperty) as string; }
 			set {
-				if (AviutlPathDefault != value && !System.IO.File.Exists(value))
-					throw new ArgumentException("Fail to find Aviutl.exe");
+				if (AviutlPathDefault != value && !File.Exists(System.IO.Path.Combine(value, "aviutl.exe")))
+					throw new IOException("Fail to find Aviutl.exe");
 				SetValue(AviutlPathProperty, value);
 			}
 		}
+		public string AviutlExecPath
+		{
+			get { return System.IO.Path.Combine(AviutlPath,"aviutl.exe"); }
+			set { AviutlPath = System.IO.Path.GetDirectoryName(value); }
+		}
 		private void aviutl_ref_Click(object sender, RoutedEventArgs e)
 		{
-			OpenFileDialog ofd = new OpenFileDialog();
-			ofd.Filter = "aviutl.exe|*.exe|すべてのファイル(*.*)|*.*";
+			var ofd = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
 			if (ofd.ShowDialog() != true)
 				return;
-			this.AviutlPath = ofd.FileName;
-
+			this.AviutlPath = ofd.SelectedPath;
 		}
 
 		private void install_update_Click(object sender, RoutedEventArgs e)
