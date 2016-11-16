@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SigmoidColorFastAviUtlDownloader"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="200" Width="525" Name="UI">
     <Grid>
-        
+        <Label x:Name="label" Content="AviUtlの場所" HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="79" FontFamily="Yu Gothic"/>
+        <Button x:Name="aviutl_ref" Content="参照" HorizontalAlignment="Left" Height="26" Margin="472,10,0,0" VerticalAlignment="Top" Width="35" Click="aviutl_ref_Click" FontFamily="Yu Gothic"/>
+        <Button x:Name="install_update" Content="Install/Update" HorizontalAlignment="Left" Height="29" Margin="10,41,0,0" VerticalAlignment="Top" Width="228" Click="install_update_Click" FontFamily="Yu Gothic"/>
+        <Button x:Name="run" Content="実行" HorizontalAlignment="Left" Height="29" Margin="279,41,0,0" VerticalAlignment="Top" Width="228" Click="run_Click" FontFamily="Yu Gothic"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="84" Margin="10,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="497" AllowDrop="False" FontFamily="Yu Gothic" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"/>
+        <TextBox x:Name="aviutl_path" HorizontalAlignment="Left" Height="26" Margin="94,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="373" Text="{Binding Path=AviutlPath, ElementName=UI, ValidatesOnExceptions=True}"/>
     </Grid>
 </Window>
