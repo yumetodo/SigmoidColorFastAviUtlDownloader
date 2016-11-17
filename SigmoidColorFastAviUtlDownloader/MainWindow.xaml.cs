@@ -30,12 +30,12 @@ namespace SigmoidColorFastAviUtlDownloader
 			typeof(MainWindow),
 			new PropertyMetadata()
 		);
-		private ObservableCollection<RichTextItem> OutMessage { get; set;}
+		private ObservableCollection<RichTextItem> OutMessage { get; } = new ObservableCollection<RichTextItem>();
 		public MainWindow()
 		{
 			AviutlPath = AviutlPathDefault;
 			InitializeComponent();
-			OutMessage = new ObservableCollection<RichTextItem>();
+			this.DataContext = this;
 			OutMessage.Add(new RichTextItem {
 				Text = "SigmoidColorFastAviUtlDownloader起動"
 			});
