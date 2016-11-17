@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace SigmoidColorFastAviUtlDownloader
 {
@@ -29,10 +30,15 @@ namespace SigmoidColorFastAviUtlDownloader
 			typeof(MainWindow),
 			new PropertyMetadata()
 		);
+		private ObservableCollection<RichTextItem> OutMessage { get; set;}
 		public MainWindow()
 		{
 			AviutlPath = AviutlPathDefault;
 			InitializeComponent();
+			OutMessage = new ObservableCollection<RichTextItem>();
+			OutMessage.Add(new RichTextItem {
+				Text = "SigmoidColorFastAviUtlDownloader起動"
+			});
 		}
 		public string AviutlPath
 		{
