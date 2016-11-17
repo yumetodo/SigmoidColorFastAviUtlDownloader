@@ -48,6 +48,19 @@ namespace SigmoidColorFastAviUtlDownloader
 			get { return System.IO.Path.Combine(AviutlPath,"aviutl.exe"); }
 			set { AviutlPath = System.IO.Path.GetDirectoryName(value); }
 		}
+		public string SampleMoviePath
+		{
+			get {
+				var re = System.IO.Path.Combine(AviutlPath, @"sample\sample.avi");
+				if (!File.Exists(re))
+					throw new IOException("Fail to find sample movie");
+				return re;
+			}
+		}
+		private void RunAviUtl()
+		{
+			System.Diagnostics.Process.Start(AviutlExecPath, '"' + SampleMoviePath + '"');
+		}
 		private void aviutl_ref_Click(object sender, RoutedEventArgs e)
 		{
 			var ofd = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
