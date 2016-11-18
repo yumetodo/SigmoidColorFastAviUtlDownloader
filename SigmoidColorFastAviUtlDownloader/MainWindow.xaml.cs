@@ -30,13 +30,26 @@ namespace SigmoidColorFastAviUtlDownloader
 			typeof(MainWindow),
 			new PropertyMetadata()
 		);
-		private ObservableCollection<RichTextItem> OutMessage { get; } = new ObservableCollection<RichTextItem>();
+		public static ObservableCollection<RichTextItem> OutMessage { get; } = new ObservableCollection<RichTextItem>();
+		public static void WriteOutMessage(RichTextItem item)
+		{
+			if(null == item.Foreground)
+			{
+				item.Foreground = new SolidColorBrush(Colors.Black);
+			}
+			OutMessage.Add(item);
+			System.Diagnostics.Debug.WriteLine(item.Text);
+		}
 		public MainWindow()
 		{
 			AviutlPath = AviutlPathDefault;
 			InitializeComponent();
 			this.DataContext = this;
-			OutMessage.Add(new RichTextItem {
+			WriteOutMessage(new RichTextItem {
+				Text = "SigmoidColorFastAviUtlDownloader起動"
+			});
+			WriteOutMessage(new RichTextItem
+			{
 				Text = "SigmoidColorFastAviUtlDownloader起動"
 			});
 		}
@@ -77,6 +90,10 @@ namespace SigmoidColorFastAviUtlDownloader
 
 		private void install_update_Click(object sender, RoutedEventArgs e)
 		{
+			WriteOutMessage(new RichTextItem
+			{
+				Text = "Download check"
+			});
 
 		}
 
