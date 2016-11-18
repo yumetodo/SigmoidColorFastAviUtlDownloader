@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 
 namespace SigmoidColorFastAviUtlDownloader
 {
@@ -23,6 +24,9 @@ namespace SigmoidColorFastAviUtlDownloader
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		//https://www.infoq.com/jp/news/2016/09/HttpClient
+		public static HttpClient httpClient = new HttpClient();
+		private AviUtlVersionManager aviutl;
 		private const string AviutlPathDefault = "aviutlのある場所もしくはインストールする場所";
 		public static DependencyProperty AviutlPathProperty = DependencyProperty.Register(
 			"AviutlPath",
@@ -43,6 +47,7 @@ namespace SigmoidColorFastAviUtlDownloader
 		public MainWindow()
 		{
 			AviutlPath = AviutlPathDefault;
+			aviutl = new AviUtlVersionManager(AviutlPath);
 			InitializeComponent();
 			this.DataContext = this;
 			WriteOutMessage(new RichTextItem {
@@ -62,11 +67,6 @@ namespace SigmoidColorFastAviUtlDownloader
 				SetValue(AviutlPathProperty, value);
 			}
 		}
-		public string AviutlExecPath
-		{
-			get { return System.IO.Path.Combine(AviutlPath,"aviutl.exe"); }
-			set { AviutlPath = System.IO.Path.GetDirectoryName(value); }
-		}
 		public string SampleMoviePath
 		{
 			get {
@@ -78,7 +78,7 @@ namespace SigmoidColorFastAviUtlDownloader
 		}
 		private void RunAviUtl()
 		{
-			System.Diagnostics.Process.Start(AviutlExecPath, '"' + SampleMoviePath + '"');
+			System.Diagnostics.Process.Start(aviutl.AviutlExecPath, '"' + SampleMoviePath + '"');
 		}
 		private void aviutl_ref_Click(object sender, RoutedEventArgs e)
 		{
@@ -88,13 +88,14 @@ namespace SigmoidColorFastAviUtlDownloader
 			this.AviutlPath = ofd.SelectedPath;
 		}
 
-		private void install_update_Click(object sender, RoutedEventArgs e)
+		private async void install_update_Click(object sender, RoutedEventArgs e)
 		{
 			WriteOutMessage(new RichTextItem
 			{
 				Text = "Download check"
 			});
 
+			if (!aviutl.IsLatest()) await aviutl.Download();
 		}
 
 		private void run_Click(object sender, RoutedEventArgs e)
